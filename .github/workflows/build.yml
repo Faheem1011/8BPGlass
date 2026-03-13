@@ -1,0 +1,31 @@
+name: Build 8BPGlass APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup NDK
+      uses: nttld/setup-ndk@v1
+      with:
+        ndk-version: r25c
+        add-to-path: true
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Build
+      run: |
+        cd jni
+        $ANDROID_NDK_HOME/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: 8BPGlass-lib
+        path: jni/libs/
