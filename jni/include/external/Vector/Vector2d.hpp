@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <string>
-#include <format>
+#include <cstdio>
 
 struct Vector2d
 {
@@ -247,7 +247,11 @@ struct Vector2d
     static inline void ToPolar(Vector2d vector, float &rad, float &theta);
 
 
-    std::string to_string() { return std::format("{:.2f}, {:.2f}", x, y); }
+    std::string to_string() {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "%.2f, %.2f", x, y);
+        return std::string(buf);
+    }
     std::string ToString() { return to_string(); }
 
     explicit operator bool () const { return x != 0 || y != 0; }

@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <string>
-#include <format>
+#include <cstdio>
 
 #include "Vector2.hpp"
 
@@ -297,7 +297,11 @@ struct Vector3d {
     inline struct Vector3d& operator+=(const Vector3d rhs);
     inline struct Vector3d& operator-=(const Vector3d rhs);
 
-    std::string to_string() { return std::format("{:.2f}, {:.2f}, {:.2f}", x, y, z); }
+    std::string to_string() {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "%.2f, %.2f, %.2f", x, y, z);
+        return std::string(buf);
+    }
     std::string ToString() { return to_string(); }
     
     explicit operator bool () const { return x != 0 || y != 0 || z != 0; }

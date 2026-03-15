@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <string>
-#include <format>
+#include <cstdio>
 
 struct Vec2d {
     union {
@@ -22,7 +22,11 @@ struct Vec2d {
     inline double square() const { return (x * x + y * y); }
     inline void nullify() { x = y = 0.0; }
 
-    std::string to_string() { return std::format("{:.2f}, {:.2f}", x, y); }
+    std::string to_string() {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "%.2f, %.2f", x, y);
+        return std::string(buf);
+    }
     std::string ToString() { return to_string(); }
     
     Vec2d operator-() const { return Vec2d(-x, -y); }
